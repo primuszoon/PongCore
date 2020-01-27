@@ -26,7 +26,7 @@ namespace PongCore
             {
                 this.speed = 1;
             }
-            else if (prob <= 9)
+            else if (prob < 9)
             {
                 this.speed = 0;
             }

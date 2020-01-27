@@ -17,10 +17,21 @@ namespace PongCore
 
         override public void Update(int i, int y)
         {
-            this.x = this.x - this.speed;
+            // do nothing :)
+            ;
         }
 
-
+        public override void KeyPress(ConsoleKeyInfo key)
+        {
+            if (key.Key == ConsoleKey.LeftArrow)
+            {
+                this.x = this.x - 1;
+            }
+            if (key.Key == ConsoleKey.RightArrow)
+            {
+                this.x = this.x + 1;
+            } 
+        }
 
 
     }

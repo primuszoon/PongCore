@@ -13,10 +13,10 @@ namespace PongCore
         public int y; // vertical position (needed for collision detection)
         public string name;
 
-        protected readonly int speed = 1;
+        protected int speed = 1;
 
         abstract public void Update(int x, int y);
-        
+        abstract public void KeyPress(ConsoleKeyInfo key);
 
 
     }

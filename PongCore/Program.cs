@@ -21,35 +21,74 @@ namespace PongCore
             Init();
 
             // Program loop for testing
-            string title = "PONG";  // The title we want to appear on top
-            // Player p1 = new Person(WindowWidth, WindowHeight - 1); // let's let computers fight!
+            string title = "PONG  --  ESC to quit the game";  // The title we want to appear on top
+            Player p2 = new Person(WindowWidth, WindowHeight - 2); 
             Player p1 = new PC(WindowWidth,1);
-            Player p2 = new PC(WindowWidth, WindowHeight - 1);
+            //Player p2 = new PC(WindowWidth, WindowHeight - 1);
             Ball ball = new Ball(WindowWidth, WindowHeight);
 
             //p1.name = "Player 1";
             p1.name = "PC";
-            p2.name = "PC";
+            p2.name = "Player 1";
 
-            do
+            while (true)
             {
-                while (!KeyAvailable)
+                // Get the key input
+                ConsoleKeyInfo keypress;
+                if (KeyAvailable)
                 {
-                    DrawField(p1.points, p2.points, p1.x, p2.x, ball.x,ball.y, p1.name, p2.name, p1.pad, p2.pad, title);
-                    if (!ball.Update(p1, p2))
+                    keypress = ReadKey(true);
+                    if (keypress.Key == ConsoleKey.Escape)
                     {
-                        ball = null;
-                        ball = new Ball(WindowWidth, WindowHeight);
+                        break;
                     }
-                    System.Threading.Thread.Sleep(50);
-                    // update player
-                    // still to do
-                    // udate pc
-                    p1.Update(ball.x, ball.y);
-                    p2.Update(ball.x, ball.y);
-
+                    p1.KeyPress(keypress);          // send command to both players, enables future multiplayer
+                    p2.KeyPress(keypress);
                 }
-            } while (ReadKey(true).Key != ConsoleKey.Escape);
+                // clear buffer
+                while (KeyAvailable)
+                {
+                    ReadKey();
+                }
+
+                // Computer player updates                          
+                p1.Update(ball.x, ball.y);
+                p2.Update(ball.x, ball.y);
+
+                // update the screen
+                DrawField(p1.points, p2.points, p1.x, p2.x, ball.x,ball.y, p1.name, p2.name, p1.pad, p2.pad, title);
+
+                // update the ball position
+                if (!ball.Update(p1, p2))
+                {
+                    ball = null;
+                    ball = new Ball(WindowWidth, WindowHeight);
+                }
+
+                // Computer player updates                          
+                p1.Update(ball.x, ball.y);
+                p2.Update(ball.x, ball.y);
+
+                // Get key input
+                if (KeyAvailable)
+                {
+                    keypress = ReadKey(true);
+                    if (keypress.Key == ConsoleKey.Escape)
+                    {
+                        break;
+                    }
+                    p1.KeyPress(keypress);
+                    p2.KeyPress(keypress);
+                }
+                // clear buffer
+                while (KeyAvailable)
+                {
+                    ReadKey();
+                }
+
+                // Update the screen
+                DrawField(p1.points, p2.points, p1.x, p2.x, ball.x, ball.y, p1.name, p2.name, p1.pad, p2.pad, title);
+            }
 
             // restore console before ending:
             WindowWidth = origScreenSizeX;
@@ -144,8 +183,8 @@ namespace PongCore
 
             // Press any key to continue
             SetCursorPosition(0, WindowHeight - 1);
-            Write("Press Any Key to Continue... ");
-            Read();
+            Write("Press Any Key to start the game...");
+            ReadKey();
             Clear();
         }
 

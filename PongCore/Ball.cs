@@ -44,7 +44,7 @@ namespace PongCore
         private void Increase()
         {
             // Check for the edges of the screen and invert if necessary
-            if (this.x + this.sX == 0 || this.x + this.sX == this.screenWidth)
+            if (this.x + this.sX <= 0 || this.x + this.sX >= this.screenWidth)
             {
                 this.sX = -this.sX;
             }
@@ -58,11 +58,11 @@ namespace PongCore
         {
             /* Collision detection cases:
              * 
-             *    o     Ball above pad: 
+             *    0     Ball above pad: 
              *    --    Ball goes left (no hit on pad): No goal, invert vertical speed, increase horizontal speed
              *          Ball goes right (hit on pad): No goal, invert vertical speed
              * 
-             *    o     Ball not above pad:
+             *    0     Ball not above pad:
              *     --   Ball goes right (hit on pad): No goal, invert vertical speed, decrease horizontal speed, (if null invert horizontal speed)
              *     ||   Ball goes left (no hit on pad): Goal
              *     ||---X2    
@@ -83,7 +83,7 @@ namespace PongCore
                 if (pTop.y == this.y + this.sY)
                 {
                     // ball above pad:
-                    if(this.x==pTopX1 || this.x == pTopX2)
+                    if(this.x >= pTopX1 && this.x <= pTopX2)
                     {
                         // next hit is on pad
                         if (this.x + this.sX >= pTopX1 && this.x + this.sX <= pTopX2)
@@ -94,7 +94,7 @@ namespace PongCore
                         else
                         {
                             this.sY = -this.sY;
-                            this.sX = (this.sX) < 0 ? this.sX-- : this.sX++;
+                            this.sX = (this.sX) < 0 ? this.sX - 1 : this.sX + 1;
                         }
                         this.Increase();
                         return true;
@@ -106,13 +106,13 @@ namespace PongCore
                         if (this.x + this.sX >= pTopX1 && this.x + this.sX <= pTopX2)
                         {
                             this.sY = -this.sY;
-                            if (this.sX >= -1 || this.sX <= 1)
+                            if (this.sX == -1 || this.sX == 1)
                             {
                                 this.sX = -this.sX;                                
                             }
                             else
                             {
-                                this.sX = (this.sX) < 0 ? this.sX++ : this.sX--;
+                                this.sX = (this.sX) < 0 ? this.sX + 1 : this.sX - 1;
                             }
                             this.Increase();
                             return true;
@@ -138,7 +138,7 @@ namespace PongCore
                 if (pBottom.y == this.y + this.sY)
                 {
                     // ball above pad:
-                    if (this.x == pBottomX1 || this.x == pBottomX2)
+                    if (this.x >= pBottomX1 && this.x <= pBottomX2)
                     {
                         // next hit is on pad
                         if (this.x + this.sX >= pBottomX1 && this.x + this.sX <= pBottomX2)
@@ -149,7 +149,7 @@ namespace PongCore
                         else
                         {
                             this.sY = -this.sY;
-                            this.sX = (this.sX) < 0 ? this.sX-- : this.sX++;
+                            this.sX = (this.sX) < 0 ? this.sX - 1 : this.sX + 1;
                         }
                         this.Increase();
                         return true;
@@ -161,13 +161,13 @@ namespace PongCore
                         if (this.x + this.sX >= pBottomX1 && this.x + this.sX <= pBottomX2)
                         {
                             this.sY = -this.sY;
-                            if (this.sX >= -1 || this.sX <= 1)
+                            if (this.sX == -1 || this.sX == 1)
                             {
                                 this.sX = -this.sX;
                             }
                             else
                             {
-                                this.sX = (this.sX) < 0 ? this.sX++ : this.sX--;
+                                this.sX = (this.sX) < 0 ? this.sX + 1 : this.sX - 1;
                             }
                             this.Increase();
                             return true;
